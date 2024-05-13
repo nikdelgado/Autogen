@@ -1,0 +1,11 @@
+.idea/
+.vscode/
+**/__pycache__/
+temp.bin
+venv/
+python/uci/output*
+dist/
+output/
+
+src/
+/test/
