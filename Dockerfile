@@ -1,39 +1,27 @@
-#
-# Simplistic sample Dockerfile
-#
+# Use the official Python image from the Docker Hub
+FROM python:3.10-slim
 
-# Sample app has to work in AERO and BPN, so we are passing in url arg
-# Your app probably doesn't need to do this
-FROM registry-gitlab.com/common/images/ubi8:noupdate
-ARG BSF_REPO_HOST
+# Set environment variables
+ENV POETRY_VERSION=1.3.2
 
-ARG PIP_INDEX_URL
+# Ensure Python output is not buffered (useful for Docker logs)
+ENV PYTHONUNBUFFERED=1
 
-COPY CAcerts.pem /etc/ssl/aero-cacert.pem
-ENV PIP_CERT=/etc/ssl/aero-cacert.pem
-ENV CURL_CA_BUNDLE=/etc/ssl/aero-cacert.pem
+# Install Poetry
+RUN pip install poetry==$POETRY_VERSION
 
+# Set the working directory
+WORKDIR /app
 
-COPY requirements.txt /opt/build/
-WORKDIR /opt/build
+# Copy the pyproject.toml and poetry.lock files
+COPY pyproject.toml poetry.lock* /app/
 
-RUN dnf update -y && dnf install -y \
-    automake \
-    gcc \
-    gcc-c++ \
-    git \
-    make \
-    python39 \
-    python39-pip \
-    python39-devel 
+# Install the project dependencies
+RUN poetry install --no-root
 
-RUN python3 -m pip install --upgrade pip
+# Copy the rest of the application code
+COPY . /app
 
-RUN set -x && \
-    pip config set global.index-url $PIP_INDEX_URL && \
-    pip install --upgrade pip && \
-    pip install -r requirements.txt
-
-
-# This image is just available to adhoc run the autogen tool with dependencies
-CMD ["/bin/sh"]
+# Set the entry point for the container
+ENTRYPOINT ["poetry", "run"]
+CMD ["python", "-m", "autogen", "--help"]

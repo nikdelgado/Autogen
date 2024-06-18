@@ -20,7 +20,6 @@ from autogen.overrides import (
 )
 
 from autogen.filter import filter_down
-from autogen.uci_messages import UCI_MESSAGE_TYPES
 
 from .settings import Settings
 
@@ -64,7 +63,7 @@ if __name__ == '__main__':
         action='append',
         default=[],
         type=str,
-        help="Add a 'root' class to filter down to (repeat for multiple) 'uci' is a special key which filters to the list in uci_messages.py",
+        help="Add a 'root' class to filter down to (repeat for multiple)",
     )
 
     parser.add_argument(
@@ -92,7 +91,7 @@ if __name__ == '__main__':
         "--utils-ns",
         dest="utils_ns",
         type=str,
-        help="Set the namespace containing the utils classes if they should be referenced instead of generated, doesn't apply to asb output.",
+        help="Set the namespace containing the utils classes if they should be referenced instead of generated.",
     )
     
     parser.add_argument(
@@ -194,8 +193,6 @@ if __name__ == '__main__':
         for f_str in class_filter
         for f in f_str.split(',')
     ]
-    if class_filter == ['uci']:
-        class_filter = UCI_MESSAGE_TYPES
     
     if class_filter:
         classes_out = filter_down(all_classes, class_filter)

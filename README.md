@@ -1,4 +1,4 @@
-# Autogen(v2)
+# Autogen
 
 C++ code generator based on [xsdata](https://github.com/tefra/xsdata) to manage parsing and collecting all the requirements of the schema.
 
@@ -6,9 +6,7 @@ C++ code generator based on [xsdata](https://github.com/tefra/xsdata) to manage 
 
 If you already have an environment set up, or are running inside a built container:
 
-API/UCI: `python -m autogen -t api -f uci ./schemas/xsd/UCI_MessageDefinitions_v2_1.xsd`
-
-IFACE/ASB: `python -m autogen -t asb -f uci ./schemas/xsd/UCI_MessageDefinitions_v2_1.xsd`
+`python -m autogen -t [TEMPLATE_TYPE] -f uci ./schemas/xsd/sample.xsd`
 
 NOTE: if running in a poetry env, prefix commands with `poetry run`
 
@@ -62,32 +60,14 @@ the api templates have examples of all these features, render the UCI Message sc
 
 ### Poetry Install
 
-Enable legacy ssl support (required for modern linux/wsl/ubuntu and pypi, maybe not RHEL8)
-~/openssl_conf.legacy
-```
-openssl_conf = openssl_init
+ 1. Run the installation command `curl -sSL https://install.python-poetry.org | python3 -`
+ 2. Add Poetry to your PATH `export PATH="$HOME/.local/bin:$PATH"`
+ 3. Reload your shell configuration
+ 4. Verify the installation `poetry --version`
 
-[openssl_init]
-ssl_conf = ssl_sect
+ Note: If you get an SSL: CERTIFICATE_VERIFY_FAILED error, install the latest certificates for your version of Python (MacOS): `/Applications/Python\ 3.XX/Install\ Certificates.command`
 
-[ssl_sect]
-system_default = system_default_sect
-
-[system_default_sect]
-Options = UnsafeLegacyRenegotiation
-```
-
-Add the next two lines to your .bash_rc (or just export if you want temporary changes while installing, has to be set before every poetry add/update command)
-
-```
-export OPENSSL_CONF=~/openssl_conf.legacy
-export CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
-```
-
-Install poetry:
-`curl -sSL https://install.python-poetry.org | python3 -`
-NOTE: RHEL7 may not have the latest version available (VDI) review the error log of versions output (ERROR: Could not find a version ... (from versions: ...)) and select a version from the "from versions:" list. Set the target version with `export POETRY_VERSION=1.1.12` then rerun the curl command above.
-### Setting up poetry env
+### Setting up Poetry Environment
 
 Once Poetry is installed, you can install dependencies and create the required virtual environment with a single command:
 

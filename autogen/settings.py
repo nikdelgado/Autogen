@@ -23,11 +23,10 @@ class Settings:
     root_repo: str = None
     utils_ns: str = None
     specs: List[TemplateSpec] = field(default_factory = lambda: [
-        TemplateSpec(key='api', namespace = [ 'common', 'api', 'uci']),
-        TemplateSpec(key='asb', namespace = [ 'common', 'iface', 'asb']),
-        TemplateSpec(key='python_bindings', namespace = ['bindings'], src_dir='cpp', git_path = 'common/iface/uci_python'),
-        TemplateSpec(key='protobuf', namespace = [ 'common', 'api', 'abb_protobuf']),
-        TemplateSpec(key='abb', namespace = [ 'common', 'iface', 'abb_protobuf']),
+        TemplateSpec(key='api', namespace = ['api']),
+        TemplateSpec(key='python_bindings', namespace = ['bindings'], src_dir='cpp', git_path = 'python'),
+        TemplateSpec(key='protobuf', namespace = ['protobuf']),
+        TemplateSpec(key='protobuf_converters', namespace = ['protobuf_converters']),
     ])
 
     @property

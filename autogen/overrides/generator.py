@@ -31,25 +31,11 @@ from .custom_types import CUSTOM_QNAME_INCLUDES
 from .helpers import FilterMethods, xsdata_class_type
 from autogen.settings import Settings, TemplateSpec
 
-# from .cosmos_filters import CosmosFilters
-
-def _header(path: Path) -> str:
-    classification = 'UNCLASSIFIED'
-    if str(path).endswith('.h') or str(path).endswith('.cpp'):
-        return f'// {classification}\n\n'
-    return ''
-
-def _footer(path: Path) -> str:
-    classification = 'UNCLASSIFIED'
-    if str(path).endswith('.h') or str(path).endswith('.cpp'):
-        return f'\n\n// {classification}'
-    return ''
-
 def _generator_result(path: Path, title: str, source: str) -> GeneratorResult:
     return GeneratorResult(
         path=path,
         title=title,
-        source=_header(path)+source.strip()+_footer(path)
+        source=source.strip()
     )
 
 class TemplateDef:
@@ -97,7 +83,7 @@ def _parse_template_filename(template_path: str, sub_dir: str) -> TemplateDef:
     )
 
 class ApiClassGenerator(DataclassGenerator):
-    """Overrides custom rendering to match NCI patterns/structure.
+    """Overrides custom rendering.
     """
 
     def __init__(self,

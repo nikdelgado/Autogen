@@ -39,30 +39,6 @@ class FilterMethods:
         } if len(obj.attrs) == 1 and obj.attrs[0].tag == Tag.CHOICE else None
         
     @staticmethod
-    def is_MT_type(
-        obj: Class,
-        mapper: AbstractMapper
-    ):
-        if "MT" in obj.qname:
-            return {'is_MT': True}
-        return None
-    
-    # One off edge case which checks if a struct is a std::pair type.  
-    @staticmethod
-    def is_std_pair_alias(
-        obj: Class,
-        mapper: AbstractMapper
-    ):
-        # TODO: Better solution?
-        std_pair_types = ["ContributingSensor"]
-        if obj.qname in std_pair_types:
-            return {
-                "std::pair": mapper.mapping.get(obj.qname)
-            }
-        else:
-            return None
-        
-    @staticmethod
     def is_base_struct(
         obj: Class,
         mapper: AbstractMapper
@@ -78,6 +54,6 @@ class FilterMethods:
         obj: Class,
         mapper: AbstractMapper
     ):
-        if obj.tag == 'ComplexType' and obj.qname != 'Data' and obj.qname != 'ContributingSensor':
+        if obj.tag == 'ComplexType':
             return {'is_complex' : True}
         return None
