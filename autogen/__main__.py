@@ -14,8 +14,8 @@ from xsdata.models.config import GeneratorConfig, NameConvention, NameCase, Clas
 
 from autogen.overrides import (
     ExtraTransformer,
+    CustomClassContainer,
     YamlMapper,
-    NciClassContainer,
     ApiClassGenerator,
 )
 
@@ -178,7 +178,7 @@ if __name__ == '__main__':
     uris = sorted(resolve_sources(args.SCHEMA_FILES, recursive=True))
     transformer.process_sources(uris)
 
-    container = NciClassContainer(cfg)
+    container = CustomClassContainer(cfg)
     container.extend(transformer.classes)
 
     container.process()

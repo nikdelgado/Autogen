@@ -3,7 +3,6 @@
 **/__pycache__/
 temp.bin
 venv/
-python/uci/output*
 dist/
 output/
 
