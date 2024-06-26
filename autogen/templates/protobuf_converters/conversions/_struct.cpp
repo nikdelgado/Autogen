@@ -1,11 +1,5 @@
 #include "{{type_name}}.h"
 
-{%- if type_name is member.has_include_override %}
-{%- for file in type_name | member.include_override %}
-#include "{{ file }}"
-{%- endfor %}
-{%- endif %}
-
 #include "{{path_package}}/utils/PopulateMutex.h"
 
 {%- if type_info.attrs|select('member.is_native')|list %}
@@ -55,7 +49,7 @@
 namespace {{ns_tpl}}
 {
     {%- if type_info.attrs or type_info.extensions %}
-    bool Convert{{type_name}}::from_protobuf({{type_name | member.ns_override}}{{type_name}}& dest, const common::api::abb_protobuf::types::{{type_name}}& src)
+    bool Convert{{type_name}}::from_protobuf({{path_package}}::{{type_name}}& dest, const {{path_package}}::{{type_name}}& src)
     {
         bool success = true;
 
@@ -64,32 +58,13 @@ namespace {{ns_tpl}}
         {%- for attr in type_info.attrs %}
         {%- set protobuf_getter = attr.name.lower().replace("_", "") %}
         {%- set protobuf_setter = "set_" + attr.name.lower().replace("_", "") %}
-
-        {# UUID has non uniform naming convention, need special case #}
-        {%- if attr.name == "uuid" %}
-        {%- set abb_getter = "get" + attr.name.upper() %}
-        {%- set abb_setter = "set" + attr.name.upper() %}
-        {%- elif attr.name == "mfaState" %}
-        {%- set abb_getter = "getMFA_State" %}
-        {%- set abb_setter = "setMFA_State" %}
-        {%- elif attr.name == "mfaComponents" %}
-        {%- set abb_getter = "getMFAComponents" %}
-        {%- set abb_setter = "setmfaComponents" %}
-        {%- else %}
-        {%- set abb_getter = "get" + attr.name | member.set_first_uppercase %}
-        {%- set abb_setter = "set" + attr.name | member.set_first_uppercase %}
-        {%- endif %}
+    
+        {%- set cpp_getter = "get" + attr.name | member.set_first_uppercase %}
+        {%- set cpp_setter = "set" + attr.name | member.set_first_uppercase %}
         
         {
-            {# Types below have non-uniform naming conventions, need special cases #}
-            {%- if type_name == "BaseDirectional" or type_name == "AzEl" or type_name == "RangeAzEl" %}
-            dest.{{attr.name}} = src.{{protobuf_getter}}();
-
-            {%- elif type_name == "Directional" %}
-            dest.set{{attr.name}}(src.{{protobuf_getter}}());
-
-            {%- elif attr is member.is_native and attr is not member.is_list %}
-            dest.{{abb_setter}}(src.{{protobuf_getter}}());
+            {%- if attr is member.is_native and attr is not member.is_list %}
+            dest.{{cpp_setter}}(src.{{protobuf_getter}}());
 
             {%- elif attr is member.is_list and attr is member.is_primitive_list %}
             {%- if "{http://www.w3.org/2001/XMLSchema}double" in attr.types[0].qname %}

@@ -22,9 +22,8 @@ namespace {{ns_tpl}}
     class Converter<{{path_package}}::{{type_name}}, {{path_package}}::{{type_name}}>
     {
     public:
-        using converter_factory = Convert{{type_name}};
-        using protobuf_namespace = {{path_package}}::{{type_name}};
-        using abb_namespace = {{path_package}}::{{type_name}};
+        using type = Convert{{type_name}};
+        using protobuf_ns = {{path_package}}::{{type_name}};
+        using cpp_ns = {{path_package}}::{{type_name}};
     };
-
 } // namespace {{ns_tpl}}
