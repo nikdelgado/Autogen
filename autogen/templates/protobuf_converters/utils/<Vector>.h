@@ -55,100 +55,100 @@ namespace {{ns_package}}::conversions
         }
     } // namespace detail
 
-    template<typename AbbType, typename ProtobufType, typename ProtobufRepeatedField>
+    template<typename CppType, typename ProtobufType, typename ProtobufRepeatedField>
     class ConvertProtoVector
     {
     public:
-        static bool to_protobuf(ProtobufRepeatedField& dest, const std::vector<AbbType>& src)
+        static bool to_protobuf(ProtobufRepeatedField& dest, const std::vector<CppType>& src)
         {
             return detail::Populate(
-                Converter<AbbType, ProtobufType>::converter_factory::to_protobuf,
+                Converter<CppType, ProtobufType>::type::to_protobuf,
                 dest,
                 src
             );
         }
-        static bool from_protobuf(std::vector<AbbType>& dest, const ProtobufRepeatedField& src)
+        static bool from_protobuf(std::vector<CppType>& dest, const ProtobufRepeatedField& src)
         {
             return detail::Populate(
-                Converter<AbbType, ProtobufType>::converter_factory::from_protobuf,
+                Converter<CppType, ProtobufType>::type::from_protobuf,
                 dest,
                 src
             );
         }
     };
     
-    template<typename AbbType, typename ProtobufType>
+    template<typename CppType, typename ProtobufType>
     class ConvertVectorVector
     {
     public:
-        static bool to_protobuf(std::vector<ProtobufType>& dest, const std::vector<AbbType>& src)
+        static bool to_protobuf(std::vector<ProtobufType>& dest, const std::vector<CppType>& src)
         {
             return detail::Populate(
-                Converter<AbbType, ProtobufType>::converter_factory::to_protobuf,
+                Converter<CppType, ProtobufType>::type::to_protobuf,
                 dest,
                 src
             );
         }
 
-        static bool from_protobuf(std::vector<AbbType>& dest, const std::vector<ProtobufType>& src)
+        static bool from_protobuf(std::vector<CppType>& dest, const std::vector<ProtobufType>& src)
         {
             return detail::Populate(
-                Converter<AbbType, ProtobufType>::converter_factory::from_protobuf,
+                Converter<CppType, ProtobufType>::type::from_protobuf,
                 dest,
                 src
             );
         }
     };
 
-    template<typename AbbType, typename ProtobufType, typename ProtobufRepeatedField, std::size_t N>
+    template<typename CppType, typename ProtobufType, typename ProtobufRepeatedField, std::size_t N>
     class ConvertArray
     {
     public:
-        static bool to_protobuf(ProtobufRepeatedField& dest, const std::array<AbbType, N>& src)
+        static bool to_protobuf(ProtobufRepeatedField& dest, const std::array<CppType, N>& src)
         {
             return detail::Populate(
-                Converter<AbbType, ProtobufType>::converter_factory::to_protobuf,
+                Converter<CppType, ProtobufType>::type::to_protobuf,
                 dest,
                 src
             );
         }
 
-        static bool from_protobuf(std::array<AbbType, N>& dest, const ProtobufRepeatedField& src)
+        static bool from_protobuf(std::array<CppType, N>& dest, const ProtobufRepeatedField& src)
         {
             return detail::Populate(
-                Converter<AbbType, ProtobufType>::converter_factory::from_protobuf,
+                Converter<CppType, ProtobufType>::type::from_protobuf,
                 dest,
                 src
             );
         }
     };
 
-    template <typename AbbType, typename ProtobufType>
-    class Converter<std::vector<AbbType>, google::protobuf::RepeatedPtrField<ProtobufType>> {
+    template <typename CppType, typename ProtobufType>
+    class Converter<std::vector<CppType>, google::protobuf::RepeatedPtrField<ProtobufType>> {
         public:
             using ProtobufRepeatedField = google::protobuf::RepeatedPtrField<ProtobufType>;
-            using converter_factory = ConvertProtoVector<AbbType, ProtobufType, ProtobufRepeatedField>;
+            using type = ConvertProtoVector<CppType, ProtobufType, ProtobufRepeatedField>;
     };
 
-    template <typename AbbType, typename ProtobufType, std::size_t N>
-    class Converter<std::array<AbbType, N>, google::protobuf::RepeatedPtrField<ProtobufType>> {
+    template <typename CppType, typename ProtobufType, std::size_t N>
+    class Converter<std::array<CppType, N>, google::protobuf::RepeatedPtrField<ProtobufType>> {
         public:
             using ProtobufRepeatedField = google::protobuf::RepeatedPtrField<ProtobufType>;
-            using converter_factory = ConvertArray<AbbType, ProtobufType, ProtobufRepeatedField, N>;          
+            using type = ConvertArray<CppType, ProtobufType, ProtobufRepeatedField, N>;          
     };
 
-    template <typename AbbType, typename ProtobufType>
-    class Converter<std::vector<AbbType>, std::vector<ProtobufType>>
+    template <typename CppType, typename ProtobufType>
+    class Converter<std::vector<CppType>, std::vector<ProtobufType>>
     {
         public:
-            using converter_factory = ConvertVectorVector<AbbType, ProtobufType>;
+            using type = ConvertVectorVector<CppType, ProtobufType>;
     };
 
     template <>
     class Converter<std::vector<double>, std::vector<double>>
     {
         public:
-            using converter_factory = ConvertVectorVector<double, double>;
+            using type = ConvertVectorVector<double, double>;
     };
     
 } // namespace {{ns_package}}::conversions

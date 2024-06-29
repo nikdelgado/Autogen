@@ -2,7 +2,7 @@
 
 namespace {{ns_package}}::conversions
 {
-    template<typename AbbType, typename ProtoType>
+    template<typename CppType, typename ProtoType>
     class Converter
     {
     public:
@@ -16,15 +16,16 @@ namespace {{ns_package}}::conversions
         // sample looks like:
         // class ConvertABC {
         // public:
-        //     static bool to_protobuf(::protobuf::type::some_proto_type& dest, const abb::types::ABC& src);
-        //     static bool from_protobuf(abb::types::ABC& dest, const ::protobuf::type::some_proto_type& src)
+        //     static bool to_protobuf(protobuf::types::some_proto_type& dest, const cpp::types::ABC& src);
+        //     static bool from_protobuf(cpp::types::ABC& dest, const protobuf::types::some_proto_type& src)
         // };
         // template <>
         // class Converter<ABC, some_proto_type>
         // {
         // public:
         //     using type = ConverterABC;
-        //     using proto_type = some_proto_type;
+        //     using proto_ns = some_proto_type;
+        //     sing cpp_ns = some_cpp_type;
         // };
 
         // NOTE: proto_type is required for nested conversion like vector/containers
@@ -32,8 +33,8 @@ namespace {{ns_package}}::conversions
         // The assertion the the dtor will only throw at compile time if the using library
         // does not import the proper library, and a suggestion is returned in the assertion
         static_assert(
-            sizeof(AbbType) == -1 || sizeof(ProtoType) == -1,
-            "Missing converter for typename AbbType (see error message details). "
+            sizeof(CppType) == -1 || sizeof(ProtoType) == -1,
+            "Missing converter for typename CppType (see error message details). "
             "Try #include <{{src_path}}/conversions/[OurType].h"
         );
     };

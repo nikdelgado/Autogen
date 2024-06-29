@@ -5,7 +5,7 @@
 
 namespace {{ns_package}}::conversions
 {
-    bool ConvertUuid::from_protobuf(std::array<std::uint8_t, 16>& dest, const common::api::abb_protobuf::types::UUID& src)
+    bool ConvertUuid::from_protobuf(std::array<std::uint8_t, 16>& dest, const c::types::UUID& src)
     {
         const auto lock = std::scoped_lock{utils::populateMutex};
         auto tempStr = src.value();
@@ -13,7 +13,7 @@ namespace {{ns_package}}::conversions
 		return true;
 	}
 
-    bool ConvertUuid::to_protobuf(common::api::abb_protobuf::types::UUID& dest, const std::array<std::uint8_t, 16>& src)
+    bool ConvertUuid::to_protobuf(::types::UUID& dest, const std::array<std::uint8_t, 16>& src)
     {
         const auto lock = std::scoped_lock{utils::populateMutex};
         std::string tempStr{};

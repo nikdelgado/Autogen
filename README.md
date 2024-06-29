@@ -6,7 +6,7 @@ C++ code generator based on [xsdata](https://github.com/tefra/xsdata) to manage 
 
 If you already have an environment set up, or are running inside a built container:
 
-`python -m autogen -t [TEMPLATE_TYPE] -f uci ./schemas/xsd/sample.xsd`
+`python -m autogen -t [TEMPLATE_TYPE] -f api ./schemas/xsd/sample.xsd`
 
 NOTE: if running in a poetry env, prefix commands with `poetry run`
 
@@ -52,11 +52,11 @@ If a `filename_pattern` is included (if not, it implies `<{type_name}>`) then th
 
 The `ext` is required, the shortest filename is `_[class_type].[ext]`.
 
-the api templates have examples of all these features, render the UCI Message schema xsd and see the resulting files for an example of it working.
+the api templates have examples of all these features, render the sample Message schema xsd and see the resulting files for an example of it working.
 
 ## Usage
 
-*NOTE*: This application is intended to be run using poetry, but can be used with a python env or virtual env, use `requirements.txt` to setup up dependencies, and remove `poetry run` from the front of all the example commands. Inside BPN you can use a pre-built image with dependencies and source, live changes may require a dockerfile to extend YMMV.
+*NOTE*: This application is intended to be run using poetry, but can be used with a python env or virtual env, use `requirements.txt` to setup up dependencies, and remove `poetry run` from the front of all the example commands.
 
 ### Poetry Install
 
@@ -84,7 +84,7 @@ using the poetry env is just like python, except you prefix your commands with `
 
 ### Argument Usage
 
-poetry run python -m autogen -t api -ns api,common::api::abb ./schemas/yaml/ABB8.yaml
+poetry run python -m autogen -t api -ns api,common::api::cpp ./schemas/yaml/sample.yaml
 
 -t [tpl_dir] is used to specify which specific template directory you would like to use
 
@@ -233,9 +233,6 @@ Either a string type name --or--
 ## Building Docker Image
 To build the image run the following command:
 
-`docker build --build-arg=PIP_INDEX_URL=https://.com/artifactory/api/pypi/pypi_group/simple --build-arg=BSF_REPO_HOST=.com -f Dockerfile -t .com/common/tools/autogen:ubi8 .`
-
-These arguments will only work on AERO.
 
 
 
@@ -243,4 +240,4 @@ These arguments will only work on AERO.
 
 1. There's a bit of code that finds your git structure root and would install into the "destination" repo, but didn't get finished, so it's not activated. Requires `git` on PATH, so doesn't work inside the current container.
 2. External class support (yaml only) is untested in protobuf outputs, needs to make sure how the imports would work and compile the output files.
-3. libclang in python would be an interesting way to auto-detect and generate the conversion code between one of the outputs (api/proto/etc) and an externally defined library (like REFCAL). Currently the templates depend on assumptions about naming patterns in external libraries, and are not re-usable for others.
+3. libclang in python would be an interesting way to auto-detect and generate the conversion code between one of the outputs (api/proto/etc) and an externally defined library. Currently the templates depend on assumptions about naming patterns in external libraries, and are not re-usable for others.

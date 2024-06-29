@@ -17,7 +17,7 @@ void bindClock(py::module_& m);
 void bindUUID(py::module_& m);
 {% endif %}
 
-PYBIND11_MODULE(uci_python, m)
+PYBIND11_MODULE(python, m)
 {
     m.doc() = "Python bindings for {{ns_api}} types";
 

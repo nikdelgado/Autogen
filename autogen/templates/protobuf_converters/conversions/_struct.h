@@ -5,7 +5,7 @@
 #include <string>
 {%- endif %}
 #include "Converter.h"
-#include "common/api/abb_protobuf/types/{{type_name}}.pb.h"
+#include "{{path_package}}/{{type_name}}.pb.h"
 
 {%- if type_name is member.has_ns_override %}
 namespace {{type_name | member.ns_override(True)}} {
@@ -20,16 +20,16 @@ namespace {{ns_tpl}}
     class Convert{{type_name}}
     {
     public:
-        static bool to_protobuf({{path_package}}::{{type_name}}& dest, const {{type_name | member.ns_override}}{{type_name}}& src);
+        static bool to_protobuf({{path_package}}::{{type_name}}& dest, const {{path_package}}::{{type_name}}& src);
         static bool from_protobuf({{path_package}}::{{type_name}}& dest, const {{path_package}}::{{type_name}}& src);
     };
 
     template<>
-    class Converter<{{path_package}}{{type_name}}, {{path_package}}::{{type_name}}>
+    class Converter<{{path_package}}::{{type_name}}, {{path_package}}::{{type_name}}>
     {
     public:
         using type = Convert{{type_name}};
         using protobuf_ns = {{path_package}}::{{type_name}};
-        using cpp_ns = {{path_package}}{{type_name}};
+        using cpp_ns = {{path_package}}::{{type_name}};
     };
 } // namespace {{ns_tpl}}

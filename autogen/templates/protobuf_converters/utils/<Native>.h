@@ -17,15 +17,15 @@ namespace {{ns_package}}::conversions
         }
     }
 
-    template<typename AbbType, typename ProtoType>
+    template<typename CppType, typename ProtoType>
     class ConvertAssignable
     {
     public:
-        static bool to_protobuf(ProtoType& dest, const AbbType& src)
+        static bool to_protobuf(ProtoType& dest, const CppType& src)
         {
             return detail::convert_assignable(dest, src);
         }
-        static bool from_protobuf(AbbType& dest, const ProtoType& src)
+        static bool from_protobuf(CppType& dest, const ProtoType& src)
         {
             return detail::convert_assignable(dest, src);
         }
@@ -35,7 +35,7 @@ namespace {{ns_package}}::conversions
     class Converter<T, T>
     {
     public:
-        using converter_factory = ConvertAssignable<T, T>;
+        using type = ConvertAssignable<T, T>;
     };
  
 } // namespace {{ns_package}}::conversions
