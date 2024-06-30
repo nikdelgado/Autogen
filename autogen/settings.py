@@ -23,10 +23,10 @@ class Settings:
     root_repo: str = None
     utils_ns: str = None
     specs: List[TemplateSpec] = field(default_factory = lambda: [
-        TemplateSpec(key='api', namespace = ['api']),
-        TemplateSpec(key='python_bindings', namespace = ['bindings'], src_dir='cpp', git_path = 'python'),
-        TemplateSpec(key='protobuf', namespace = ['protobuf']),
-        TemplateSpec(key='protobuf_converters', namespace = ['protobuf_converters']),
+        TemplateSpec(key='api', namespace = ['autogen.api']),
+        TemplateSpec(key='python_bindings', namespace = ['autogen.bindings'], src_dir='cpp', git_path = 'python'),
+        TemplateSpec(key='protobuf', namespace = ['autogen.protobuf']),
+        TemplateSpec(key='protobuf_converters', namespace = ['autogen.protobuf_converters']),
     ])
 
     @property

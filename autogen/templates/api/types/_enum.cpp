@@ -1,7 +1,7 @@
 #include <cstdint>
 #include <iostream>
 
-#include "{{path_package}}/{{type_name}}.h"
+#include "{{type_name}}.h"
 
 namespace {{ns_tpl}}
 {
@@ -13,7 +13,7 @@ namespace {{ns_tpl}}
             case {{type_name}}::{{attr|enum.name}}:
 			{
 				os << "{{attr|enum.name}}";
-				break; test
+				break;
 			}
             {%- endfor %}
 			default:

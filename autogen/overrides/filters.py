@@ -1029,7 +1029,7 @@ class AgFilters:
         if 'path_utils' in self.render_vars:
             return f'<{self.render_vars["path_utils"]}/{rel_path}>'
         else:
-            return f'"{self.render_vars["path_api"]}/{rel_path}"'
+            return f'"{self.render_vars["path_package"]}/{rel_path}"'
 
     def cpp_includes(self, attr: Attr, recurse: bool = True, for_cpp_include: bool = False) -> List[str]:
         """This is the remaining recursive includes that are not in c_includes for a struct type.
